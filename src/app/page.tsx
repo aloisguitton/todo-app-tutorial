@@ -8,11 +8,11 @@ import {
   TextField,
   Typography,
 } from "@mui/material";
+import { insertTodoMutation, updateTodoMutation } from "./lib/graphql/mutation";
 import { useEffect, useState } from "react";
 import { useMutation, useQuery } from "@apollo/client";
 
 import { getTodosQuery } from "@/app/lib/graphql/query";
-import { insertTodoMutation } from "./lib/graphql/mutation";
 import styles from "./page.module.scss";
 
 export default function Home() {
@@ -20,13 +20,14 @@ export default function Home() {
 
   const { loading, error, data, refetch } = useQuery(getTodosQuery);
   const [createTodo, { data: dataCreate }] = useMutation(insertTodoMutation);
+  const [updateTodo, { data: dataUpdate }] = useMutation(updateTodoMutation);
 
   useEffect(() => {
-    if (dataCreate) {
+    if (dataCreate || dataUpdate) {
       refetch();
       setTitle("");
     }
-  }, [dataCreate, refetch]);
+  }, [dataCreate, refetch, dataUpdate]);
 
   if (error) return <p>Error</p>;
 
@@ -63,7 +64,16 @@ export default function Home() {
                   <div className={styles.title}>
                     <Typography>{todo.title}</Typography>
                     <div>
-                      <IconButton>
+                      <IconButton
+                        onClick={() =>
+                          updateTodo({
+                            variables: {
+                              updateTodoId: todo.id,
+                              done: !todo.done,
+                            },
+                          })
+                        }
+                      >
                         {todo.done ? (
                           <CheckCircle color="success" />
                         ) : (

@@ -14,6 +14,7 @@ import { TypedDocumentNode as DocumentNode } from '@graphql-typed-document-node/
  */
 const documents = {
     "\n  mutation Mutation($title: String!) {\n    createTodo(title: $title) {\n      id\n      title\n      done\n      createdAt\n    }\n  }\n": types.MutationDocument,
+    "\n  mutation UpdateTodo($updateTodoId: Int!, $done: Boolean!) {\n    updateTodo(id: $updateTodoId, done: $done) {\n      id\n      title\n      done\n      createdAt\n    }\n  }\n": types.UpdateTodoDocument,
     "\n  query Todos {\n    todos {\n      id\n      title\n      done\n      createdAt\n    }\n  }\n": types.TodosDocument,
 };
 
@@ -35,6 +36,10 @@ export function gql(source: string): unknown;
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function gql(source: "\n  mutation Mutation($title: String!) {\n    createTodo(title: $title) {\n      id\n      title\n      done\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  mutation Mutation($title: String!) {\n    createTodo(title: $title) {\n      id\n      title\n      done\n      createdAt\n    }\n  }\n"];
+/**
+ * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function gql(source: "\n  mutation UpdateTodo($updateTodoId: Int!, $done: Boolean!) {\n    updateTodo(id: $updateTodoId, done: $done) {\n      id\n      title\n      done\n      createdAt\n    }\n  }\n"): (typeof documents)["\n  mutation UpdateTodo($updateTodoId: Int!, $done: Boolean!) {\n    updateTodo(id: $updateTodoId, done: $done) {\n      id\n      title\n      done\n      createdAt\n    }\n  }\n"];
 /**
  * The gql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
